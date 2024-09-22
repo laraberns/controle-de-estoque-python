@@ -58,6 +58,23 @@ def ordenar_lista(tipo):
         return print("Digite 'crescente' ou 'decrescente'")
     return estoque_ordenado
 
+# Busca de Produtos
+def buscar_produtos(descricao='', codigo=''):
+    produtos_encontrados = [] 
+    for produto in estoque:
+        if descricao:
+            if descricao.lower() in produto['descricao'].lower():
+                produtos_encontrados.append(produto)
+        elif codigo:
+            if produto['codigo'] == int(codigo):
+                produtos_encontrados.append(produto)
+
+    if produtos_encontrados:
+        for p in produtos_encontrados:
+            print(f"Produto: {p}")
+    else:
+        print("Produto não encontrado.")
+
 # Menu interativo
 def menu():
     while True:
@@ -65,7 +82,8 @@ def menu():
         print("1. Adicionar novo produto")
         print("2. Listar produtos cadastrados")
         print("3. Ordenar produtos pela quantidade")
-        print("4. Sair do menu")
+        print("4. Buscar produto")
+        print("5. Sair do menu")
         print("==================")
 
         numero_escolhido = input("Digite uma opção: ")
@@ -92,6 +110,16 @@ def menu():
             listar_produtos(lista_ordenada)
 
         elif numero_escolhido == '4':
+            tipo_busca = input("Deseja buscar pela descrição ou código? (Digite 'descrição' ou 'código'): ")
+            termo = str(input("Digite o produto que deseja buscar? "))
+            if tipo_busca.lower() == 'descrição':
+                buscar_produtos(descricao=termo)
+            elif tipo_busca.lower() == 'código':
+                buscar_produtos(codigo=termo)
+            else:
+                print("Digite 'descrição' ou 'código' para realizar a busca")
+    
+        elif numero_escolhido == '5':
             print("Saindo...")
             break
 
