@@ -18,8 +18,6 @@ def cadastrar_produto(descricao, codigo, quantidade_estoque, custo_item, preco_v
     }
 
     estoque.append(novo_produto)
-    print(f"Produto com o código {codigo} adicionado com sucesso!")
-    return novo_produto
 
 # Adicionar Estoque inicial
 def adicionar_estoque_inicial():
@@ -60,8 +58,45 @@ def ordenar_lista(tipo):
         return print("Digite 'crescente' ou 'decrescente'")
     return estoque_ordenado
 
-lista_ordenada = ordenar_lista("decrsescente")
-if lista_ordenada:
-    listar_produtos(lista_ordenada)
+# Menu interativo
+def menu():
+    while True:
+        print("\n===== MENU ======")
+        print("1. Adicionar novo produto")
+        print("2. Listar produtos cadastrados")
+        print("3. Ordenar produtos pela quantidade")
+        print("4. Sair do menu")
+        print("==================")
 
+        numero_escolhido = input("Digite uma opção: ")
+
+        if numero_escolhido == "1":
+            try:
+                descricao = input("Digite a descrição do produto: ")
+                codigo = int(input("Digite o código do produto: "))
+                quantidade_estoque = int(input("Digite a quantidade em estoque do produto: "))
+                custo_item = float(input("Digite o custo do produto: "))
+                preco_venda = float(input("Digite o preço de venda do produto: "))
+                
+                cadastrar_produto(descricao, codigo, quantidade_estoque, custo_item, preco_venda)
+
+            except ValueError:
+                print("Erro: Por favor, insira valores numéricos válidos para código, quantidade, custo e preço.")
+
+        elif numero_escolhido == '2':
+            listar_produtos()
+
+        elif numero_escolhido == '3':
+            tipo_ordenacao = input("Deseja ordenar de que forma? (Digite 'crescente' ou 'decrescente'): ")
+            lista_ordenada = ordenar_lista(tipo_ordenacao)
+            listar_produtos(lista_ordenada)
+
+        elif numero_escolhido == '4':
+            print("Saindo...")
+            break
+
+        else:
+            print("Opção inválida. Tente novamente.")
+
+menu()
 
