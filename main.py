@@ -38,8 +38,8 @@ def adicionar_estoque_inicial():
 adicionar_estoque_inicial()
 
 # Listagem de produtos
-def listar_produtos():
-    if not estoque:
+def listar_produtos(lista_produtos = estoque):
+    if not lista_produtos:
         print("Nenhum produto cadastrado.")
         return
     
@@ -47,10 +47,21 @@ def listar_produtos():
     print(f"{'Descrição':<30} {'Código':<10} {'Quantidade':<15} {'Custo':<10} {'Preço':<10}")
     print("-" * 75)
     
-    for produto in estoque:
+    for produto in lista_produtos:
         print(f"{produto['descricao']:<30} {produto['codigo']:<10} {produto['quantidade_estoque']:<15} {produto['custo_item']:<10} {produto['preco_venda']:<10}")
 
+# Ordenação de produtos por quantidade
+def ordenar_lista(tipo):
+    if tipo.lower() == "crescente":
+        estoque_ordenado = sorted(estoque, key=lambda x: x['quantidade_estoque'])
+    elif tipo.lower() == "decrescente":
+        estoque_ordenado = sorted(estoque, key=lambda x: x['quantidade_estoque'], reverse=True)
+    else:
+        return print("Digite 'crescente' ou 'decrescente'")
+    return estoque_ordenado
 
-listar_produtos()
+lista_ordenada = ordenar_lista("decrsescente")
+if lista_ordenada:
+    listar_produtos(lista_ordenada)
 
 
