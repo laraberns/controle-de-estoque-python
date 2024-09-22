@@ -21,7 +21,6 @@ def cadastrar_produto(descricao, codigo, quantidade_estoque, custo_item, preco_v
     print(f"Produto com o código {codigo} adicionado com sucesso!")
     return novo_produto
 
-
 # Adicionar Estoque inicial
 def adicionar_estoque_inicial():
     lista_estoque_inicial = estoque_inicial.split('#')
@@ -37,4 +36,21 @@ def adicionar_estoque_inicial():
         cadastrar_produto(descricao, codigo, quantidade_estoque, custo_item, preco_venda)
 
 adicionar_estoque_inicial()
-print(estoque)
+
+# Listagem de produtos
+def listar_produtos():
+    if not estoque:
+        print("Nenhum produto cadastrado.")
+        return
+    
+    print("Lista de Produtos:")
+    print(f"{'Descrição':<30} {'Código':<10} {'Quantidade':<15} {'Custo':<10} {'Preço':<10}")
+    print("-" * 75)
+    
+    for produto in estoque:
+        print(f"{produto['descricao']:<30} {produto['codigo']:<10} {produto['quantidade_estoque']:<15} {produto['custo_item']:<10} {produto['preco_venda']:<10}")
+
+
+listar_produtos()
+
+
