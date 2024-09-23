@@ -75,6 +75,15 @@ def buscar_produtos(descricao='', codigo=''):
     else:
         print("Produto não encontrado.")
 
+# Remoção de produtos
+def remover_produto(codigo):
+    for produto in estoque:
+        if produto['codigo'] == codigo:
+            estoque.remove(produto)
+            print(f"Produto com código {codigo} removido.")
+            return
+    print(f"Produto com código {codigo} não encontrado.")
+
 # Menu interativo
 def menu():
     while True:
@@ -83,7 +92,8 @@ def menu():
         print("2. Listar produtos cadastrados")
         print("3. Ordenar produtos pela quantidade")
         print("4. Buscar produto")
-        print("5. Sair do menu")
+        print("5. Remover produto")
+        print("6. Sair do menu")
         print("==================")
 
         numero_escolhido = input("Digite uma opção: ")
@@ -111,7 +121,7 @@ def menu():
 
         elif numero_escolhido == '4':
             tipo_busca = input("Deseja buscar pela descrição ou código? (Digite 'descrição' ou 'código'): ")
-            termo = str(input("Digite o produto que deseja buscar? "))
+            termo = input("Digite o produto que deseja buscar? ")
             if tipo_busca.lower() == 'descrição':
                 buscar_produtos(descricao=termo)
             elif tipo_busca.lower() == 'código':
@@ -120,6 +130,13 @@ def menu():
                 print("Digite 'descrição' ou 'código' para realizar a busca")
     
         elif numero_escolhido == '5':
+            try:
+                produto_a_remover = int(input("Digite o código do produto que deseja remover: "))
+                remover_produto(produto_a_remover)
+            except ValueError:
+                print("Erro: Por favor, insira um código válido.")
+
+        elif numero_escolhido == '6':
             print("Saindo...")
             break
 
