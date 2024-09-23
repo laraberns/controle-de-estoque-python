@@ -70,8 +70,7 @@ def buscar_produtos(descricao='', codigo=''):
                 produtos_encontrados.append(produto)
 
     if produtos_encontrados:
-        for p in produtos_encontrados:
-            print(f"Produto: {p}")
+        listar_produtos(produtos_encontrados)
     else:
         print("Produto não encontrado.")
 
@@ -84,6 +83,18 @@ def remover_produto(codigo):
             return
     print(f"Produto com código {codigo} não encontrado.")
 
+# Consulta de produtos esgotados:
+def listar_produtos_esgotados():
+    produtos_esgotados = [] 
+    for produto in estoque:
+        if produto['quantidade_estoque'] == 0:
+            produtos_esgotados.append(produto)
+
+    if produtos_esgotados:
+        listar_produtos(produtos_esgotados)
+    else:
+        print("Não há produtos esgotados.")
+
 # Menu interativo
 def menu():
     while True:
@@ -93,7 +104,8 @@ def menu():
         print("3. Ordenar produtos pela quantidade")
         print("4. Buscar produto")
         print("5. Remover produto")
-        print("6. Sair do menu")
+        print("6. Listar produtos esgotados")
+        print("7. Sair do menu")
         print("==================")
 
         numero_escolhido = input("Digite uma opção: ")
@@ -137,6 +149,9 @@ def menu():
                 print("Erro: Por favor, insira um código válido.")
 
         elif numero_escolhido == '6':
+            listar_produtos_esgotados()
+
+        elif numero_escolhido == '7':
             print("Saindo...")
             break
 
