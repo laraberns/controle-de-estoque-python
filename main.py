@@ -95,6 +95,18 @@ def listar_produtos_esgotados():
     else:
         print("Não há produtos esgotados.")
 
+# Filtro de produtos com baixa quantidade:
+def filtrar_produtos_pela_quantidade(quantidade = 10):
+    produtos_com_quantidade_abaixa = [] 
+    for produto in estoque:
+        if produto['quantidade_estoque'] < quantidade:
+            produtos_com_quantidade_abaixa.append(produto)
+
+    if produtos_com_quantidade_abaixa:
+        listar_produtos(produtos_com_quantidade_abaixa)
+    else:
+        print(f"Não há produtos com menos de {quantidade} unidade(s).")
+
 # Menu interativo
 def menu():
     while True:
@@ -105,7 +117,8 @@ def menu():
         print("4. Buscar produto")
         print("5. Remover produto")
         print("6. Listar produtos esgotados")
-        print("7. Sair do menu")
+        print("7. Filtrar produtos com baixa quantidade")
+        print("8. Sair do menu")
         print("==================")
 
         numero_escolhido = input("Digite uma opção: ")
@@ -152,6 +165,17 @@ def menu():
             listar_produtos_esgotados()
 
         elif numero_escolhido == '7':
+            quantidade_a_buscar = input("Digite a quantidade que deseja filtrar (ou pressione Enter para usar o padrão de 10): ")
+            if quantidade_a_buscar == "":
+                filtrar_produtos_pela_quantidade()
+            else:
+                try:
+                    quantidade_a_buscar = int(quantidade_a_buscar)
+                    filtrar_produtos_pela_quantidade(quantidade_a_buscar)
+                except ValueError:
+                    print("Erro: Por favor, insira uma quantidade válida.")
+
+        elif numero_escolhido == '8':
             print("Saindo...")
             break
 
