@@ -112,8 +112,12 @@ def atualizar_estoque(codigo, quantidade):
     produto_encontrado = False
     for produto in estoque:
         if produto['codigo'] == codigo:
-            produto['quantidade_estoque'] = int(quantidade)
-            print("Produto atualizado com sucesso")
+            nova_quantidade = produto['quantidade_estoque'] + quantidade
+            if nova_quantidade < 0:
+                print("Erro: O estoque não pode ficar negativo.")
+                return
+            produto['quantidade_estoque'] = nova_quantidade
+            print("Estoque do produto atualizado com sucesso.")
             produto_encontrado = True
             break
 
@@ -125,8 +129,11 @@ def atualizar_preco_venda(codigo, preco_venda):
     produto_encontrado = False
     for produto in estoque:
         if produto['codigo'] == codigo:
+            if preco_venda < produto['custo_item']:
+                print("Erro: O preço de venda não pode ser menor que o custo do item.")
+                return
             produto['preco_venda'] = float(preco_venda)
-            print("Produto atualizado com sucesso")
+            print("Preço de venda do produto atualizado com sucesso.")
             produto_encontrado = True
             break
 
@@ -205,25 +212,25 @@ def menu():
 
         elif numero_escolhido == '8':
             try:
-                codigo = int(input("Digite o código do produto que deseja atualizar: "))
-                quantidade = int(input("Digite a nova quantidade atual do produto: "))
+                codigo = int(input("Informe o código do produto que deseja ajustar o estoque: "))
+                quantidade = int(input("Digite a quantidade a ser adicionada ou removida do estoque: "))
                 if quantidade < 0:
-                    print("Erro: A quantidade não pode ser negativa.")
+                    print("Erro: Não é possível remover mais itens do que o disponível em estoque.")
                 else:
                     atualizar_estoque(codigo, quantidade)
             except ValueError:
-                print("Erro: Por favor, insira um código ou quantidade válidos.")
-        
+                print("Entrada inválida: Certifique-se de inserir um código numérico válido e uma quantidade correta.")
+
         elif numero_escolhido == '9':
             try:
-                codigo = int(input("Digite o código do produto que deseja atualizar: "))
+                codigo = int(input("Informe o código do produto para ajustar o preço de venda: "))
                 preco_venda = float(input("Digite o novo preço de venda do produto: "))
                 if preco_venda <= 0:
-                    print("Erro: O preço de venda não pode ser negativo ou igual à zero.")
+                    print("Erro: O preço de venda deve ser maior que zero.")
                 else:
                     atualizar_preco_venda(codigo, preco_venda)
             except ValueError:
-                print("Erro: Por favor, insira um código ou preço de venda válidos.")
+                print("Entrada inválida: Certifique-se de inserir um código numérico válido e um preço de venda correto.")
         
         elif numero_escolhido == '10':
             print("Saindo...")
