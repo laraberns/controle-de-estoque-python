@@ -420,10 +420,7 @@ def menu():
             try:
                 codigo = int(input("Informe o código do produto que deseja ajustar o estoque: "))
                 quantidade = int(input("Digite a quantidade a ser adicionada ou removida do estoque: "))
-                if quantidade < 0:
-                    print("Erro: Não é possível remover mais itens do que o disponível em estoque.")
-                else:
-                    atualizar_estoque(codigo, quantidade)
+                atualizar_estoque(codigo, quantidade)
             except ValueError:
                 print("Entrada inválida: Certifique-se de inserir um código numérico válido e uma quantidade correta.")
 
