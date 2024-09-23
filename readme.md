@@ -51,9 +51,9 @@ O sistema possui um menu interativo, que oferece as seguintes opções:
    ```bash
    git clone https://github.com/usuario/sistema-estoque.git
 
-2. Execute o script estoque.py:
+2. Execute o script main.py:
 
    ```bash
-   python3 main.py
+   python main.py
 
 
