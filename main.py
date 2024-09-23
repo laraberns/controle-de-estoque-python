@@ -140,6 +140,17 @@ def atualizar_preco_venda(codigo, preco_venda):
     if not produto_encontrado:
         print("Produto com o código fornecido não foi encontrado.")
 
+# Calcular valor total do estoque:
+def calcular_valor_total_estoque():
+    if not estoque:
+        print("O estoque está vazio.")
+        return
+
+    valor_total = 0.0
+    for produto in estoque:
+        valor_total += produto['quantidade_estoque'] * produto['preco_venda']
+    print(f"O valor total em estoque é R$ {valor_total:.2f}")
+
 # Menu interativo
 def menu():
     while True:
@@ -153,7 +164,8 @@ def menu():
         print("7. Filtrar produtos com baixa quantidade")
         print("8. Atualizar o estoque")
         print("9. Atualizar o preço de venda")
-        print("10. Sair do menu")
+        print("10. Calcular valor total do estoque")
+        print("11. Sair do menu")
         print("==================")
 
         numero_escolhido = input("Digite uma opção: ")
@@ -233,6 +245,9 @@ def menu():
                 print("Entrada inválida: Certifique-se de inserir um código numérico válido e um preço de venda correto.")
         
         elif numero_escolhido == '10':
+            calcular_valor_total_estoque()
+       
+        elif numero_escolhido == '11':
             print("Saindo...")
             break
 
