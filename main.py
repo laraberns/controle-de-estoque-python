@@ -151,6 +151,17 @@ def calcular_valor_total_estoque():
         valor_total += produto['quantidade_estoque'] * produto['preco_venda']
     print(f"O valor total em estoque é R$ {valor_total:.2f}")
 
+# Calcular lucro presumido:
+def calcular_lucro_presumido():
+    if not estoque:
+        print("O estoque está vazio.")
+        return
+
+    lucro_total = 0.0
+    for produto in estoque:
+        lucro_total += produto['quantidade_estoque'] * (produto['preco_venda'] - produto['custo_item'])
+    print(f"O lucro total presumido do estoque é R$ {lucro_total:.2f}")
+
 # Menu interativo
 def menu():
     while True:
@@ -165,7 +176,8 @@ def menu():
         print("8. Atualizar o estoque")
         print("9. Atualizar o preço de venda")
         print("10. Calcular valor total do estoque")
-        print("11. Sair do menu")
+        print("11. Calcular lucro presumido do estoque")
+        print("12. Sair do menu")
         print("==================")
 
         numero_escolhido = input("Digite uma opção: ")
@@ -248,6 +260,9 @@ def menu():
             calcular_valor_total_estoque()
        
         elif numero_escolhido == '11':
+            calcular_lucro_presumido()
+
+        elif numero_escolhido == '12':
             print("Saindo...")
             break
 
