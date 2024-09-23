@@ -4,6 +4,21 @@ estoque_inicial = "Notebook Dell;201;15;3200.00;4500.00#Notebook Lenovo;202;10;2
 
 # Cadastro de produtos
 def cadastrar_produto(descricao, codigo, quantidade_estoque, custo_item, preco_venda):
+    """
+    Cadastra um novo produto no estoque.
+
+    Parâmetros:
+    descricao (str): Descrição do produto.
+    codigo (int): Código único do produto.
+    quantidade_estoque (int): Quantidade disponível em estoque do produto.
+    custo_item (float): Custo do produto.
+    preco_venda (float): Preço de venda do produto.
+
+    Retorna:
+    None
+
+    Se o código do produto já existir no estoque, exibe uma mensagem informando que o produto não pode ser cadastrado.
+    """
     for produto in estoque:
         if produto['codigo'] == codigo:
             print(f"Produto com o código {codigo} já existe.")
@@ -21,6 +36,17 @@ def cadastrar_produto(descricao, codigo, quantidade_estoque, custo_item, preco_v
 
 # Adicionar Estoque inicial
 def adicionar_estoque_inicial():
+    """
+    Adiciona produtos iniciais ao estoque a partir de uma string de dados.
+
+    A string de dados é formatada com produtos separados por '#' e atributos de produtos separados por ';'. Cada produto contém a descrição, código, quantidade em estoque, custo e preço de venda.
+
+    Parâmetros:
+    None
+
+    Retorna:
+    None
+    """
     lista_estoque_inicial = estoque_inicial.split('#')
     
     for produto in lista_estoque_inicial:
@@ -37,6 +63,17 @@ adicionar_estoque_inicial()
 
 # Listagem de produtos
 def listar_produtos(lista_produtos = estoque):
+    """
+    Lista os produtos cadastrados no estoque.
+
+    A função imprime no terminal uma tabela com as informações de cada produto, incluindo descrição, código, quantidade em estoque, custo e preço de venda.
+
+    Parâmetros:
+    lista_produtos (list, opcional): Uma lista de produtos a ser exibida. Se não for fornecida, usa a lista global `estoque`.
+
+    Retorna:
+    None
+    """
     if not lista_produtos:
         print("Nenhum produto cadastrado.")
         return
@@ -50,6 +87,17 @@ def listar_produtos(lista_produtos = estoque):
 
 # Ordenação de produtos por quantidade
 def ordenar_lista(tipo):
+    """
+    Ordena a lista de produtos no estoque pela quantidade disponível.
+
+    A função organiza os produtos em ordem crescente ou decrescente com base na quantidade em estoque.
+
+    Parâmetros:
+    tipo (str): Um string que indica a ordem de classificação. Deve ser 'crescente' ou 'decrescente'.
+
+    Retorna:
+    list: Uma lista ordenada de produtos com base na quantidade em estoque. Se a opção fornecida não for válida, retorna None e exibe uma mensagem de erro.
+    """
     if tipo.lower() == "crescente":
         estoque_ordenado = sorted(estoque, key=lambda x: x['quantidade_estoque'])
     elif tipo.lower() == "decrescente":
@@ -60,6 +108,18 @@ def ordenar_lista(tipo):
 
 # Busca de Produtos
 def buscar_produtos(descricao='', codigo=''):
+    """
+    Busca produtos no estoque com base na descrição ou código.
+
+    A função procura por produtos que correspondam à descrição fornecida ou ao código do produto. Os produtos encontrados são exibidos na lista.
+
+    Parâmetros:
+    descricao (str): A descrição do produto a ser buscado. Se não for fornecida, a busca é feita pelo código.
+    codigo (str): O código do produto a ser buscado. Se não for fornecido, a busca é feita pela descrição.
+
+    Retorna:
+    None: Exibe a lista de produtos encontrados ou uma mensagem indicando que nenhum produto foi encontrado.
+    """
     produtos_encontrados = [] 
     for produto in estoque:
         if descricao:
@@ -76,6 +136,17 @@ def buscar_produtos(descricao='', codigo=''):
 
 # Remoção de produtos
 def remover_produto(codigo):
+    """
+    Remove um produto do estoque com base no código fornecido.
+
+    A função procura o produto pelo código e, se encontrado, remove-o do estoque. Uma mensagem é exibida indicando o resultado da operação.
+
+    Parâmetros:
+    codigo (int): O código do produto a ser removido do estoque.
+
+    Retorna:
+    None: Exibe uma mensagem indicando se o produto foi removido ou não encontrado.
+    """
     for produto in estoque:
         if produto['codigo'] == codigo:
             estoque.remove(produto)
@@ -85,6 +156,14 @@ def remover_produto(codigo):
 
 # Consulta de produtos esgotados:
 def listar_produtos_esgotados():
+    """
+    Lista os produtos que estão esgotados no estoque.
+
+    A função verifica todos os produtos no estoque e adiciona aqueles com quantidade em estoque igual a zero a uma lista. Se houver produtos esgotados, eles são exibidos usando a função `listar_produtos`. Caso contrário, uma mensagem é exibida informando que não há produtos esgotados.
+
+    Retorna:
+    None: Exibe a lista de produtos esgotados ou uma mensagem informando que não há produtos esgotados.
+    """
     produtos_esgotados = [] 
     for produto in estoque:
         if produto['quantidade_estoque'] == 0:
@@ -97,6 +176,17 @@ def listar_produtos_esgotados():
 
 # Filtro de produtos com baixa quantidade:
 def filtrar_produtos_pela_quantidade(quantidade = 10):
+    """
+    Filtra e lista produtos com quantidade em estoque abaixo de um valor especificado.
+
+    A função verifica todos os produtos no estoque e adiciona aqueles com quantidade em estoque inferior ao valor especificado (padrão é 10) a uma lista. Se houver produtos com quantidade baixo do especificado, eles são exibidos usando a função `listar_produtos`. Caso contrário, uma mensagem é exibida informando que não há produtos com quantidade abaixo do limite.
+
+    Parâmetros:
+    quantidade (int): O limite de quantidade para filtrar os produtos (padrão é 10).
+
+    Retorna:
+    None: Exibe a lista de produtos com quantidade abaixo do limite ou uma mensagem informando que não há produtos com essa quantidade.
+    """
     produtos_com_quantidade_abaixa = [] 
     for produto in estoque:
         if produto['quantidade_estoque'] < quantidade:
@@ -109,6 +199,18 @@ def filtrar_produtos_pela_quantidade(quantidade = 10):
 
 # Atualização de estoque:
 def atualizar_estoque(codigo, quantidade):
+    """
+    Atualiza a quantidade de um produto no estoque.
+
+    A função busca um produto pelo código fornecido e atualiza a quantidade em estoque adicionando o valor especificado. Se a nova quantidade resultar em um estoque negativo, uma mensagem de erro é exibida. Se o produto não for encontrado, uma mensagem informando isso é apresentada.
+
+    Parâmetros:
+    codigo (int): O código do produto a ser atualizado.
+    quantidade (int): O valor a ser adicionado (ou subtraído) da quantidade atual em estoque.
+
+    Retorna:
+    None: Exibe mensagens informando o sucesso ou falha da operação.
+    """
     produto_encontrado = False
     for produto in estoque:
         if produto['codigo'] == codigo:
@@ -126,6 +228,18 @@ def atualizar_estoque(codigo, quantidade):
 
 # Atualização de preços:
 def atualizar_preco_venda(codigo, preco_venda):
+    """
+    Atualiza o preço de venda de um produto no estoque.
+
+    A função busca um produto pelo código fornecido e atualiza seu preço de venda com o novo valor especificado. Se o novo preço for menor que o custo do item, uma mensagem de erro é exibida. Se o produto não for encontrado, uma mensagem informando isso é apresentada.
+
+    Parâmetros:
+    codigo (int): O código do produto cujo preço de venda será atualizado.
+    preco_venda (float): O novo preço de venda a ser definido para o produto.
+
+    Retorna:
+    None: Exibe mensagens informando o sucesso ou falha da operação.
+    """
     produto_encontrado = False
     for produto in estoque:
         if produto['codigo'] == codigo:
@@ -142,6 +256,14 @@ def atualizar_preco_venda(codigo, preco_venda):
 
 # Calcular valor total do estoque:
 def calcular_valor_total_estoque():
+    """
+    Calcula e exibe o valor total do estoque.
+
+    A função percorre todos os produtos no estoque e calcula o valor total multiplicando a quantidade disponível de cada produto pelo seu preço de venda. Se o estoque estiver vazio, uma mensagem apropriada será exibida.
+
+    Retorna:
+    None: Exibe o valor total do estoque ou uma mensagem se o estoque estiver vazio.
+    """
     if not estoque:
         print("O estoque está vazio.")
         return
@@ -153,6 +275,14 @@ def calcular_valor_total_estoque():
 
 # Calcular lucro presumido:
 def calcular_lucro_presumido():
+    """
+    Calcula e exibe o lucro presumido do estoque.
+
+    A função percorre todos os produtos no estoque e calcula o lucro total presumido, considerando a diferença entre o preço de venda e o custo de cada item, multiplicado pela quantidade disponível. Se o estoque estiver vazio, uma mensagem apropriada será exibida.
+
+    Retorna:
+    None: Exibe o lucro total presumido do estoque ou uma mensagem se o estoque estiver vazio.
+    """
     if not estoque:
         print("O estoque está vazio.")
         return
@@ -164,6 +294,16 @@ def calcular_lucro_presumido():
 
 # Menu interativo
 def menu():
+    """
+    Exibe um menu interativo para gerenciar o estoque de produtos.
+
+    O menu oferece opções para adicionar produtos, listar produtos cadastrados, ordenar produtos pela quantidade, buscar produtos, remover produtos, listar produtos esgotados, filtrar produtos com baixa quantidade, atualizar o estoque, atualizar o preço de venda, calcular o valor total do estoque e calcular o lucro presumido do estoque.
+
+    O usuário pode interagir com o menu até escolher a opção de sair.
+    
+    Retorna:
+    None: O menu é exibido até que o usuário decida sair.
+    """
     while True:
         print("\n===== MENU ======")
         print("1. Adicionar novo produto")
