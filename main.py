@@ -104,8 +104,21 @@ def filtrar_produtos_pela_quantidade(quantidade = 10):
 
     if produtos_com_quantidade_abaixa:
         listar_produtos(produtos_com_quantidade_abaixa)
-    else:
+    else: 
         print(f"Não há produtos com menos de {quantidade} unidade(s).")
+
+# Atualização de estoque:
+def atualizar_estoque(codigo, quantidade):
+    produto_encontrado = False
+    for produto in estoque:
+        if produto['codigo'] == codigo:
+            produto['quantidade_estoque'] = int(quantidade)
+            print("Produto atualizado com sucesso")
+            produto_encontrado = True
+            break
+
+    if not produto_encontrado:
+        print("Produto com o código fornecido não foi encontrado.")
 
 # Menu interativo
 def menu():
@@ -118,7 +131,8 @@ def menu():
         print("5. Remover produto")
         print("6. Listar produtos esgotados")
         print("7. Filtrar produtos com baixa quantidade")
-        print("8. Sair do menu")
+        print("8. Atualizar o estoque")
+        print("9. Sair do menu")
         print("==================")
 
         numero_escolhido = input("Digite uma opção: ")
@@ -176,6 +190,17 @@ def menu():
                     print("Erro: Por favor, insira uma quantidade válida.")
 
         elif numero_escolhido == '8':
+            try:
+                codigo = int(input("Digite o código do produto que deseja atualizar: "))
+                quantidade = int(input("Digite a nova quantidade atual do produto: "))
+                if quantidade < 0:
+                    print("Erro: A quantidade não pode ser negativa.")
+                else:
+                    atualizar_estoque(codigo, quantidade)
+            except ValueError:
+                print("Erro: Por favor, insira um código ou quantidade válidos.")
+        
+        elif numero_escolhido == '9':
             print("Saindo...")
             break
 
