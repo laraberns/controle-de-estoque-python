@@ -271,7 +271,7 @@ def calcular_valor_total_estoque():
     valor_total = 0.0
     for produto in estoque:
         valor_total += produto['quantidade_estoque'] * produto['preco_venda']
-    print(f"O valor total em estoque é R$ {valor_total:.2f}")
+    return valor_total
 
 # Calcular lucro presumido:
 def calcular_lucro_presumido():
@@ -291,6 +291,47 @@ def calcular_lucro_presumido():
     for produto in estoque:
         lucro_total += produto['quantidade_estoque'] * (produto['preco_venda'] - produto['custo_item'])
     print(f"O lucro total presumido do estoque é R$ {lucro_total:.2f}")
+
+# Calcular custo total:
+def calcular_custo_total():
+    """
+    Calcula o custo total do estoque com base na quantidade e custo de cada item.
+
+    Retorna:
+    float: O custo total do estoque.
+    """
+    custo_total = 0.0
+    for produto in estoque:
+        custo_total += produto['quantidade_estoque'] * produto['custo_item']
+    return custo_total
+
+# Relatório geral do estoque
+def exibir_relatorio_geral():
+    """
+    Exibe um relatório geral do estoque de produtos.
+
+    O relatório inclui a descrição, código, quantidade em estoque, custo unitário, preço de venda e valor total por item (quantidade * preço). Ao final, são exibidos o custo total e o faturamento total do estoque.
+
+    Retorna:
+    None: A função imprime o relatório no terminal.
+    """
+    if not estoque:
+        print("Nenhum produto cadastrado.")
+        return
+    
+    print("Lista de Produtos:")
+    print(f"{'Descrição':<30} {'Código':<10} {'Quantidade':<15} {'Custo':<10} {'Preço':<10} {'Valor total':<15}")
+    print("-" * 100)
+    
+    for produto in estoque:
+        print(f"{produto['descricao']:<30} {produto['codigo']:<10} {produto['quantidade_estoque']:<15} {produto['custo_item']:<10} {produto['preco_venda']:<10} {(produto['preco_venda']*produto['quantidade_estoque']):<15}")
+    
+    custo_total = str(calcular_custo_total())
+    faturamento_total = str(calcular_valor_total_estoque())
+
+    print("-" * 100)
+    print(("Custo total:").rjust(50), f"R$ {custo_total}")
+    print(("Faturamento total:").rjust(50), f"R$ {faturamento_total}")
 
 # Menu interativo
 def menu():
@@ -317,7 +358,8 @@ def menu():
         print("9. Atualizar o preço de venda")
         print("10. Calcular valor total do estoque")
         print("11. Calcular lucro presumido do estoque")
-        print("12. Sair do menu")
+        print("12. Exibir relatório geral do estoque")
+        print("13. Sair do menu")
         print("==================")
 
         numero_escolhido = input("Digite uma opção: ")
@@ -397,12 +439,16 @@ def menu():
                 print("Entrada inválida: Certifique-se de inserir um código numérico válido e um preço de venda correto.")
         
         elif numero_escolhido == '10':
-            calcular_valor_total_estoque()
+            valor_total = calcular_valor_total_estoque()
+            print(f"O valor total em estoque é R$ {valor_total:.2f}")
        
         elif numero_escolhido == '11':
             calcular_lucro_presumido()
 
         elif numero_escolhido == '12':
+            exibir_relatorio_geral()
+
+        elif numero_escolhido == '13':
             print("Saindo...")
             break
 
